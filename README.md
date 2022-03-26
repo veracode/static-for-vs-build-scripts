@@ -1,10 +1,17 @@
 <img src="https://help.veracode.com/internal/api/webapp/header/logo" width="200" /><br>
 
-# static-for-vs-build-scripts
+# Veracode for Visual Studio Build Scripts
 
 ## Overview
 
 A repository for managing different build/publish/package/scan script use cases. The **main** branch contains the default scripts as created by Veracode Static for Visual Studio 2019 and Veracode Static for Visual Studio 2022. The branches referred to further below contain customizations of these files for various use cases.
+
+## Table of Contents
+- [Before You Begin](#before-you-begin)
+- [Usage](#usage)
+- [License](#license)
+- [User Contributions](#user-contributions)
+  - [How to Create a New Veracode Application and Sandbox](#how-to-create-a-new-veracode-application-and-sandbox)
 
 ## Before You Begin
 
@@ -50,3 +57,10 @@ These files are placed in the `C:\Users\{UserName}\.veracode` directory, and wil
 
 See the [LICENSE](LICENSE) file for details.
 
+## User Contributions
+
+### How to Create a New Veracode Application and Sandbox
+
+The modifications in the branch below show how to create a new Veracode application and sandbox on the platform when you run a scan. The only file you need to update for this example is **veracode-project.json**.
+
+[dhabolt/add-veracode-app-sandbox](https://github.com/veracode/static-for-vs-build-scripts/tree/dhabolt/add-veracode-app-sandbox)
