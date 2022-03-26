@@ -12,6 +12,7 @@ A repository for managing different build/publish/package/scan script use cases.
 - [License](#license)
 - [User Contributions](#user-contributions)
   - [How to Create a New Veracode Application and Sandbox](#how-to-create-a-new-veracode-application-and-sandbox)
+  - [Don't Build, Just Upload Artifacts](#dont-build-just-upload-artifacts)
 
 ## Before You Begin
 
@@ -64,3 +65,9 @@ See the [LICENSE](LICENSE) file for details.
 The modifications in the branch below show how to create a new Veracode application and sandbox on the platform when you run a scan. The only file you need to update for this example is **veracode-project.json**.
 
 [dhabolt/add-veracode-app-sandbox](https://github.com/veracode/static-for-vs-build-scripts/tree/dhabolt/add-veracode-app-sandbox)
+
+### Don't Build, Just Upload Artifacts
+
+If you want to drop some folders/files into a specified directory and have them zipped and uploaded to the platform without doing a Veracode build, this workflow is a great starting point.
+
+[dhabolt/no-build](https://github.com/veracode/static-for-vs-build-scripts/tree/dhabolt/no-build)
