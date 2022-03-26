@@ -1,0 +1,42 @@
+{
+  "projectVersion": "1.0.0",
+  "solutionName": "",
+  "solutionPath": "",
+  "canAddTemplates": true,
+  "canAddPublishTemplates": true,
+  "buildEngine": "msbuild",
+  "buildOutputPath": ".veracode",
+  "canZipBuildOutput": true,
+  "canRemoveExecutables": false,
+  "buildArguments": [
+    "Veracode.Package.build /t:VeracodeClean /p:VeracodeBuild=true",
+    "'{SolutionName}.sln' /p:VeracodeBuild=true /p:VeracodeSolutionName='{SolutionName}' /p:VeracodeBuildOutputPath='{BuildOutputPath}' /p:VeracodeRemoveExecutables={RemoveExecutables} /verbosity:m"
+  ],
+  "rebuildArguments": [
+    "'{SolutionName}.sln' /t:rebuild /p:VeracodeBuild=true /p:VeracodeSolutionName='{SolutionName}' /p:VeracodeBuildOutputPath='{BuildOutputPath}' /verbosity:m"
+  ],
+  "publishArguments": [
+    "Veracode.Package.build /t:VeracodeClean /p:VeracodeBuild=true",
+    "'{SolutionName}.sln' /p:DeployOnBuild=true /p:PublishProfile=VeracodePublishProfile /verbosity:m"
+  ],
+  "packageArguments": [
+    "Veracode.Package.build /p:VeracodeBuild=true /p:VeracodeSolutionName='{SolutionName}' /p:VeracodeBuildOutputPath='{BuildOutputPath}' /p:VeracodeZip={ZipOutput} /verbosity:m"
+  ],
+  "dotnetBuildArguments": [
+    "build Veracode.Package.build -t:VeracodeClean -p:VeracodeBuild=true",
+    "build '{SolutionName}.sln' -p:VeracodeBuild=true -p:VeracodeSolutionName='{SolutionName}' -p:VeracodeBuildOutputPath='{BuildOutputPath}' -p:VeracodeRemoveExecutables={RemoveExecutables} -verbosity:m"
+  ],
+  "dotnetRebuildArguments": [
+    "build '{SolutionName}.sln' --no-incremental -p:VeracodeBuild=true -p:VeracodeSolutionName='{SolutionName}' -p:VeracodeBuildOutputPath='{BuildOutputPath}' -verbosity:m"
+  ],
+  "dotnetPublishArguments": [
+    "build Veracode.Package.build -t:VeracodeClean -p:VeracodeBuild=true",
+    "publish '{SolutionName}.sln' -p:DeployOnBuild=true -p:PublishProfile=VeracodePublishProfile -verbosity:m"
+  ],
+  "dotnetPackageArguments": [
+    "build Veracode.Package.build -p:VeracodeBuild=true -p:VeracodeSolutionName='{SolutionName}' -p:VeracodeBuildOutputPath='{BuildOutputPath}' -p:VeracodeZip={ZipOutput} -verbosity:m"
+  ],
+  "uploadArguments": [
+    "-action UploadAndScanByProject -projectpath '{SolutionPath}/veracode-project.json'"
+  ]
+}

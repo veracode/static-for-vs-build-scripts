@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<Choose>
+		<!-- In this case we did not pass a build output path so we default to the relative path (to the solution) .veracode/veracode-build -->
+		<When Condition=" '$(VeracodeBuildOutputPath)'=='' ">
+			<PropertyGroup>
+				<VeracodeBuildPath>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory).veracode/veracode-tmp/'))</VeracodeBuildPath>
+				<VeracodeFinalPath>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory).veracode/build/'))</VeracodeFinalPath>
+			</PropertyGroup>
+		</When>
+		
+		<!-- In this case we passed a relative build output path -->
+		<When Condition="!$([System.IO.Path]::IsPathRooted('$(VeracodeBuildOutputPath)'))">
+			<PropertyGroup>
+				<VeracodeBuildPath>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)/$(VeracodeBuildOutputPath)/veracode-tmp/'))</VeracodeBuildPath>
+				<VeracodeFinalPath>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)/$(VeracodeBuildOutputPath)/build/'))</VeracodeFinalPath>
+			</PropertyGroup>
+		</When>
+		
+		<!-- Otherwise we must have passed a fully qualified build output path -->
+		<Otherwise>
+			<PropertyGroup>
+				<VeracodeBuildPath>$(VeracodeBuildOutputPath)/veracode-tmp/</VeracodeBuildPath>
+				<VeracodeFinalPath>$(VeracodeBuildOutputPath)/build/</VeracodeFinalPath>
+			</PropertyGroup>
+		</Otherwise>
+	</Choose>
+	<PropertyGroup Condition=" '$(VeracodeBuild)' == 'true'">
+		<VeracodeSolutionPath>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)'))</VeracodeSolutionPath>
+		<VeracodeTemporaryBuildPath>$(VeracodeBuildPath)binary/</VeracodeTemporaryBuildPath>
+		<VeracodeProjectPath>$(VeracodeTemporaryBuildPath)$(MSBuildProjectName)/</VeracodeProjectPath>
+		<VeracodePrecompilePath>$(VeracodeBuildPath)web/</VeracodePrecompilePath>
+		<DebugType>full</DebugType>
+		<DebugSymbols>true</DebugSymbols>
+		<Optimize>false</Optimize>
+		<VeracodeBuildVersion>1.0.0</VeracodeBuildVersion>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(VeracodeBuild)' == 'true'">
+		<VeracodeRemoveExecutables>true</VeracodeRemoveExecutables>
+		<VeracodeShouldIncludeJavaScript>true</VeracodeShouldIncludeJavaScript>
+		<VeracodeShouldRemoveTemporaryDirectory>false</VeracodeShouldRemoveTemporaryDirectory>
+	</PropertyGroup>	
+</Project>
