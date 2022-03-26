@@ -1,0 +1,10 @@
+﻿{
+  "projectVersion": "1.0.0",
+  "msBuildPath": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Professional\\MSBuild\\Current\\Bin",
+  "dotnetPath": "C:\\Program Files\\dotnet",
+  "solutions": [
+    {
+      "solutionName": "{Your Solution Name}"
+    }
+  ]
+}
