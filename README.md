@@ -1,52 +1,24 @@
 <img src="https://help.veracode.com/internal/api/webapp/header/logo" width="200" /><br>
 
-# static-for-vs-build-scripts
+# Create a New Veracode Application and Sandbox
 
 ## Overview
 
-A repository for managing different build/publish/package/scan script use cases. The **main** branch contains the default scripts as created by Veracode Static for Visual Studio 2019 and Veracode Static for Visual Studio 2022. The branches referred to further below contain customizations of these files for various use cases.
+The modifications here show how to create a new Veracode application and sandbox on the platform when you run a scan. The only file you need to update for this example is **veracode-project.json**. 
 
-## Before You Begin
+## Steps
 
-If you haven't read the documentation, you should review it [here](https://marketplace.visualstudio.com/items?itemName=Veracode.StaticForVs2022#veracode-static-for-visual-studio-documentation-preview).
+ - Download the **veracode-project.json** file
+ - Update the appName, criticality, and sandboxName values as appropriate
+   - criticality values can be:
+     - High
+     - Low
+     - Medium
+     - VeryHigh
+     - VeryLow
+ - Add the **veracode-project.json** to your solution directory
+ - From the extension menu, choose **Run Scan**
 
-## Usage
+ After Run Scan syncs to the platform, and executes a build/package, you should see the scan start and the new application and sandbox being created on the platform.
 
-All of the files mentioned below are either MSBuild scripts or JSON configuration files and can be customized accordingly.
-
-The main folders and files contained in this repository are:
-- main
-  - Directory.Build.targets
-  - Veracode.Package.build
-  - Veracode.props
-  - veracode-build-microsoft.json
-  - veracode-project.json
-- special
-  - VeracodePublishProfile.pubxml
-- user
-  - veracode-build-microsoft-user.json
-  - veracode-project-user.json
-
-### main
-
-These files are created by the extension if they don't already exist with [the Wizard](https://marketplace.visualstudio.com/items?itemName=Veracode.StaticForVs2022#the-wizard) (*veracode-project.json*) or when you [build/package](https://marketplace.visualstudio.com/items?itemName=Veracode.StaticForVs2022#buildpackage-and-publishpackage) (*Directory.Build.targets*, *Veracode.Package.build*, *Veracode.props*, *veracode-build-microsoft.json*).
-
-They are placed in the solution root of the application.
-
-### special
-
-This file (*VeracodePublishProfile.pubxml*) is created by the extension when you [Publish/Package](https://marketplace.visualstudio.com/items?itemName=Veracode.StaticForVs2022#buildpackage-and-publishpackage) and you have at least one <span>ASP.</span>NET Framework project.
-
-This file is placed in the `Properties/PublishProfiles` directory of each <span>ASP.</span>NET Framework project since that project type needs to be precompiled.
-
-### user
-
-The *veracode-build-microsoft-user.json* file is created by the extension when you [build/package](https://marketplace.visualstudio.com/items?itemName=Veracode.StaticForVs2022#buildpackage-and-publishpackage), and the *veracode-project-user.json* is created by the extension using [the Wizard](https://marketplace.visualstudio.com/items?itemName=Veracode.StaticForVs2022#the-wizard).
-
-These files are placed in the `C:\Users\{UserName}\.veracode` directory, and will override the corresponding files in the solution directory.
-
-## License
-[![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-
-See the [LICENSE](LICENSE) file for details.
-
+ Note that when you run the scan again [the Wizard](https://marketplace.visualstudio.com/items?itemName=Veracode.StaticForVs2022#the-wizard) will appear asking if you want to select a sandbox (you cannot change your application name at this point). You can either select the sandbox you'd just created, or click next. If you selected a sandbox, an entry will be added to your **veracode-project-user.json** with your sandbox name reflected in the `sandboxName` property. Otherwise, the sandboxName property will be empty (but will still continue to use the sandboxName value in your **veracode-project.json** file).

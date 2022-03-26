@@ -1,9 +1,13 @@
 ﻿{
   "projectVersion": "1.0.0",
   "uploadAndScan": {
-    "appName": "{Add-Veracode-Application-Name}",
+    "appName": "New Application Name",
     "fileFolderPath": [
       ".veracode/build"
-    ]
+    ],
+    "createApplication": "true",
+    "criticality": "High",
+    "createSandbox": "true",
+    "sandboxName": "New Sandbox Name"
   }
 }
