@@ -1,66 +1,76 @@
 <img src="https://help.veracode.com/internal/api/webapp/header/logo" width="200" /><br>
 
-# Veracode for Visual Studio Build Scripts
+# Don't Build, Just Upload Artifacts
 
 ## Overview
 
-A repository for managing different build/publish/package/scan script use cases. The **main** branch contains the default scripts as created by Veracode Static for Visual Studio 2019 and Veracode Static for Visual Studio 2022. The branches referred to further below contain customizations of these files for various use cases.
+If you want to drop some folders/files into a specified directory and have them zipped and uploaded to the platform without doing a Veracode build, this workflow is a great starting point.
 
-## Table of Contents
-- [Before You Begin](#before-you-begin)
-- [Usage](#usage)
-- [License](#license)
-- [User Contributions](#user-contributions)
-  - [How to Create a New Veracode Application and Sandbox](#how-to-create-a-new-veracode-application-and-sandbox)
+## Details
 
-## Before You Begin
+The following files in the main directory have been modified:
+- Veracode.Package.build
+- veracode-build-microsoft.json
 
-If you haven't read the documentation, you should review it [here](https://marketplace.visualstudio.com/items?itemName=Veracode.StaticForVs2022#veracode-static-for-visual-studio-documentation-preview).
+Refer to the sections below for details of the modifications.
+
+### veracode-build-microsoft.json
+
+The modifications to this file were to remove the MSBuild statements from **buildArguments** and **publishArguments** that initiates the build. Also note that `/p:VeracodeBuildOutputPath='{BuildOutputPath}'` is being passed in case a fully qualified directory is specified.
+
+### Veracode.Package.build
+
+The modifications to this MSBuild file handle the zipping of the directories before they're moved, and to show setup errors and fix them if possible. The setup errors are:
+- The folder $(VeracodeTemporaryBuildPath) was missing and has been created.
+- The folder $(VeracodeTemporaryBuildPath) is empty. Please place the folders/files to upload to Veracode into this directory.
 
 ## Usage
 
-All of the files mentioned below are either MSBuild scripts or JSON configuration files and can be customized accordingly.
+Copy **Veracode.Package.build** and **veracode-build-microsoft.json** to your solution directory, replacing the existing files. If you've made other additional modifications to these files, you'll need to merge them as appropriate instead of replacing them.
 
-The main folders and files contained in this repository are:
-- main
-  - Directory.Build.targets
-  - Veracode.Package.build
-  - Veracode.props
-  - veracode-build-microsoft.json
-  - veracode-project.json
-- special
-  - VeracodePublishProfile.pubxml
-- user
-  - veracode-build-microsoft-user.json
-  - veracode-project-user.json
+Before developers run a scan they'll need to place the folders/files that need to be uploaded to the Veracode platform in the veracode-tmp/binary directory.
 
-### main
+The only file you need to modify is the **Veracode.Package.build** file. Each folder you need to zip and upload to the Veracode platform will need to have an entry added.
 
-These files are created by the extension if they don't already exist with [the Wizard](https://marketplace.visualstudio.com/items?itemName=Veracode.StaticForVs2022#the-wizard) (*veracode-project.json*) or when you [build/package](https://marketplace.visualstudio.com/items?itemName=Veracode.StaticForVs2022#buildpackage-and-publishpackage) (*Directory.Build.targets*, *Veracode.Package.build*, *Veracode.props*, *veracode-build-microsoft.json*).
+If you need to upload individual files to the platform, you'll need to place them into a folder first. If you have files that are already zipped, they cannot be placed into folders that will be zipped, instead, you'll need to use the MSBuild Copy command as shown below.
 
-They are placed in the solution root of the application.
+```
+<ZipDirectory 
+	SourceDirectory="$(VeracodeTemporaryBuildPath)/WebGoatCore" 
+	DestinationFile="$(VeracodeFinalPath)/WebGoatCore.zip" />
 
-### special
+<ZipDirectory 
+	SourceDirectory="$(VeracodeTemporaryBuildPath)/WebSite" 
+	DestinationFile="$(VeracodeFinalPath)/WebSite.zip" />
 
-This file (*VeracodePublishProfile.pubxml*) is created by the extension when you [Publish/Package](https://marketplace.visualstudio.com/items?itemName=Veracode.StaticForVs2022#buildpackage-and-publishpackage) and you have at least one <span>ASP.</span>NET Framework project.
+<ZipDirectory 
+	SourceDirectory="$(VeracodeTemporaryBuildPath)/XtremelyEvilWebApp" 
+	DestinationFile="$(VeracodeFinalPath)/XtremelyEvilWebApp.zip" />
 
-This file is placed in the `Properties/PublishProfiles` directory of each <span>ASP.</span>NET Framework project since that project type needs to be precompiled.
+<Copy 
+    SourceFiles="$(VeracodeTemporaryBuildPath)/javascript.zip"
+    DestinationFolder="$(VeracodeFinalPath)" />
 
-### user
+<Copy 
+    SourceFiles="$(VeracodeTemporaryBuildPath)/other.zip"
+    DestinationFolder="$(VeracodeFinalPath)" />
 
-The *veracode-build-microsoft-user.json* file is created by the extension when you [build/package](https://marketplace.visualstudio.com/items?itemName=Veracode.StaticForVs2022#buildpackage-and-publishpackage), and the *veracode-project-user.json* is created by the extension using [the Wizard](https://marketplace.visualstudio.com/items?itemName=Veracode.StaticForVs2022#the-wizard).
+```
 
-These files are placed in the `C:\Users\{UserName}\.veracode` directory, and will override the corresponding files in the solution directory.
+### Note
 
-## License
-[![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+There is no MSBuild command that can simply point to a directory containing folders to zip, without adding the [MSBuild Extension Pack](https://www.nuget.org/packages/MSBuild.Extension.Pack/), or the [MSBuild.Community.Tasks](https://github.com/loresoft/msbuildtasks). 
 
-See the [LICENSE](LICENSE) file for details.
+In other words, without installing one of these extension packs, you need to manually add each folder you want to upload as shown above.
 
-## User Contributions
+## Optional
 
-### How to Create a New Veracode Application and Sandbox
+### Changing the Default Directory Name
 
-The modifications in the branch below show how to create a new Veracode application and sandbox on the platform when you run a scan. The only file you need to update for this example is **veracode-project.json**.
+The default name for the directory you upload your folders to is *binary* (since the normal build processes produce binaries). You can easily change this by updating this line in the **Veracode.props** file:
 
-[dhabolt/add-veracode-app-sandbox](https://github.com/veracode/static-for-vs-build-scripts/tree/dhabolt/add-veracode-app-sandbox)
+```xml
+<VeracodeTemporaryBuildPath>$(VeracodeBuildPath)binary/</VeracodeTemporaryBuildPath>
+```
+
+Just change *binary* to whatever folder name you'd like.
