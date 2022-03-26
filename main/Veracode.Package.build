@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="VeracodeOutputPreparation" ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<Import Project="Veracode.props" />
+	<PropertyGroup Condition=" '$(VeracodeBuild)' == 'true'">
+		<VeracodeBinaryZip>binaries.zip</VeracodeBinaryZip>
+		<VeracodeJavaScriptZip>javascript.zip</VeracodeJavaScriptZip>
+		<VeracodeJavaScriptPath>$(VeracodeBuildPath)JavaScript/</VeracodeJavaScriptPath>
+	</PropertyGroup>
+	
+	<Target Name="VeracodeOutputPreparation" Condition=" '$(VeracodeBuild)' == 'true'">
+		<Message Importance="high" Text="Adding Final Output Directory: $(VeracodeFinalPath)" />
+		<RemoveDir Directories="$(VeracodeFinalPath)" />
+		<MakeDir Directories="$(VeracodeFinalPath)"/>	
+	</Target>
+
+	<Target Name="VeracodeCopyPrecompileFinal" Condition=" '$(VeracodeBuild)' == 'true' AND Exists('$(VeracodePrecompilePath)')" AfterTargets="VeracodeOutputPreparation">
+		<Message Importance="high" Text="Copying Publish/Precompile Files..." />
+		<ItemGroup>
+			<BinFiles Include="$(VeracodePrecompilePath)/**/*.dll;$(VeracodePrecompilePath)/**/*.exe;$(VeracodePrecompilePath)/**/*.pdb" />
+		</ItemGroup>
+		<Copy SourceFiles="@(BinFiles)" DestinationFiles="@(BinFiles->'$(VeracodeTemporaryBuildPath)/%(RecursiveDir)%(Filename)%(Extension)')" />		
+	</Target>	
+	
+	<Target Name="VeracodeCleanBinaries" Condition=" '$(VeracodeBuild)' == 'true'" AfterTargets="VeracodeCopyPrecompileFinal">
+		<Message Importance="high" Text="Removing Test Directories..." />
+		<!-- <RemoveDir Directories="$(VeracodeTemporaryBuildPath)OrchardCore.Benchmarks" /> -->
+		
+		<!-- <Delete Files="$(VeracodeTemporaryBuildPath)OrchardCore.Mvc.Web/OrchardCore.Mvc.Web.exe" /> -->
+	</Target>
+	
+	<Target Name="VeracodeZipBinaries" Condition=" '$(VeracodeBuild)' == 'true' AND '$(VeracodeZip)' == 'true'" AfterTargets="VeracodeCleanBinaries">	
+		<Message Importance="high" Text="Zipping Binaries Started" />
+		<ZipDirectory SourceDirectory="$(VeracodeTemporaryBuildPath)" DestinationFile="$(VeracodeFinalPath)$(VeracodeBinaryZip)" />
+		<Message Importance="high" Text="Zipping Binaries Completed" />
+	</Target>
+	
+	<Target Name="VeracodeCopyOutputFinal" Condition=" '$(VeracodeBuild)' == 'true' AND '$(VeracodeZip)' != 'true'" AfterTargets="VeracodeZipBinaries">
+		<Message Importance="high" Text="Copying Final Output Started" />
+		<ItemGroup>
+			<BinFiles Include="$(VeracodeTemporaryBuildPath)/**/*.*" />
+		</ItemGroup>
+		<Copy SourceFiles="@(BinFiles)" DestinationFiles="@(BinFiles->'$(VeracodeFinalPath)/%(RecursiveDir)%(Filename)%(Extension)')" />		
+		<Message Importance="high" Text="Copying Final Output Completed" />
+	</Target>
+	
+	<!-- For full JavaScript packaging instructions, see the following Veracode Help Center Topic: https://help.veracode.com/r/compilation_jscript -->
+	<Target Name="VeracodePackageJavaScript" Condition=" '$(VeracodeBuild)' == 'true' AND '$(VeracodeShouldIncludeJavaScript)' == 'true'" AfterTargets="VeracodeCopyOutputFinal">
+		<!--
+		<Message Importance="high" Text="Copying JavaScript Files" />
+		<ItemGroup>
+			<JavaScriptFiles
+				Include="$(VeracodeSolutionPath)/WebSite/Scripts/**/*.js;" 
+				Exclude="$(VeracodeSolutionPath)/WebSite/Scripts/**/*min.js;" />
+		</ItemGroup>
+		<Copy SourceFiles="@(JavaScriptFiles)" DestinationFiles="@(JavaScriptFiles->'$(VeracodeJavaScriptPath)/WebSite/Scripts/%(RecursiveDir)%(Filename)%(Extension)')" ContinueOnError="true" />
+		<Message Importance="high" Text="Copying JavaScript Files Completed" />
+		-->
+	</Target>
+	
+	<Target Name="VeracodeZipJavaScript" Condition=" '$(VeracodeBuild)' == 'true' AND '$(VeracodeShouldIncludeJavaScript)' == 'true' AND Exists('$(VeracodeJavaScriptPath)')" AfterTargets="VeracodePackageJavaScript">
+		<Message Importance="high" Text="Zipping JavaScript Started" />
+		<ZipDirectory SourceDirectory="$(VeracodeJavaScriptPath)" DestinationFile="$(VeracodeFinalPath)$(VeracodeJavaScriptZip)" />
+		<Message Importance="high" Text="Zipping JavaScript Completed" />
+	</Target>
+
+	<Target Name="VeracodeClean" Condition=" '$(VeracodeBuild)' == 'true'">
+		<RemoveDir Directories="$(VeracodeBuildPath)" />
+		<RemoveDir Directories="$(VeracodeFinalPath)" />
+	</Target>		
+</Project>

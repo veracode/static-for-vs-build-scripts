@@ -1,0 +1,9 @@
+﻿{
+  "projectVersion": "1.0.0",
+  "uploadAndScan": {
+    "appName": "{Add-Veracode-Application-Name}",
+    "fileFolderPath": [
+      ".veracode/build"
+    ]
+  }
+}

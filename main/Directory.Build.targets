@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<Import Project="Veracode.props" />	
+	<Target Name="VeracodeCopyOutput" Condition=" '$(VeracodeBuild)' == 'true'" AfterTargets="Build">
+		<ItemGroup>
+			<BinFiles Include="$(OutputPath)/**/*.dll;$(OutputPath)/**/*.exe;$(OutputPath)/**/*.pdb" />
+			<!-- <BinFiles Remove="$(OutputPath)/**/Microsoft.*" /> -->
+			<!-- <BinFiles Remove="$(OutputPath)/**/System.*" /> -->
+		</ItemGroup>
+		<ItemGroup Condition=" '$(VeracodeRemoveExecutables)' == 'true'">
+			<BinFiles Remove="$(OutputPath)/**/$(MSBuildProjectName).exe" />			
+		</ItemGroup>
+		<Copy SourceFiles="@(BinFiles)" DestinationFiles="@(BinFiles->'$(VeracodeProjectPath)/%(RecursiveDir)%(Filename)%(Extension)')" />		
+	</Target>
+</Project>

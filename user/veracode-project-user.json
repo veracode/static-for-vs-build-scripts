@@ -1,0 +1,10 @@
+﻿{
+  "projectVersion": "1.0.0",
+  "uploadAndScan": {
+    "projects": [
+      {
+        "appName": "{Your Veracode Application Name}"
+      }
+    ]
+  }
+}
