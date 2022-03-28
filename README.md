@@ -4,7 +4,7 @@
 
 ## Overview
 
-A repository for managing different build/publish/package/scan script use cases. The **main** branch contains the default scripts as created by Veracode Static for Visual Studio 2019 and Veracode Static for Visual Studio 2022. The branches referred to further below contain customizations of these files for various use cases.
+A repository for managing different build/publish/package/scan script use cases. The **main** branch contains the default scripts as created by [Veracode Static for Visual Studio 2019](https://marketplace.visualstudio.com/items?itemName=Veracode.StaticForVs2019) and [Veracode Static for Visual Studio 2022](https://marketplace.visualstudio.com/items?itemName=Veracode.StaticForVs2022). The branches referred to further below contain customizations of these files for various use cases.
 
 ## Table of Contents
 - [Before You Begin](#before-you-begin)
