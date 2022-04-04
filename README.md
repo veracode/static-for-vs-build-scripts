@@ -58,11 +58,11 @@ If you need to upload individual files to the platform, you'll need to place the
 
 ```
 
-#### Note
-
-	There is no MSBuild command that can simply point to a directory containing folders to zip, without adding the [MSBuild Extension Pack](https://www.nuget.org/packages/MSBuild.Extension.Pack/), or the [MSBuild.Community.Tasks](https://github.com/loresoft/msbuildtasks). 
-
-	In other words, without installing one of these extension packs, you need to manually add each folder you want to upload as shown above.
+> **Note**
+> 
+> There is no MSBuild command that can simply point to a directory containing folders to zip, without adding the [MSBuild Extension Pack](https://www.nuget.org/packages/MSBuild.Extension.Pack/), or the [MSBuild.Community.Tasks](https://github.com/loresoft/msbuildtasks). 
+> 
+> In other words, without installing one of these extension packs, you need to manually add each folder you want to upload as shown above.
 
 ### Step 3
 
