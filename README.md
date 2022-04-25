@@ -16,7 +16,7 @@ A repository for managing different build/publish/package/scan script use cases.
 
 ## Before You Begin
 
-If you haven't read the documentation, you should review it [here](https://marketplace.visualstudio.com/items?itemName=Veracode.StaticForVs2022#veracode-static-for-visual-studio-documentation-preview).
+If you haven't read the documentation, you should review it [here](https://docs.veracode.com/r/About_Veracode_Static_for_Visual_Studio_New).
 
 ## Usage
 
@@ -37,19 +37,19 @@ The main folders and files contained in this repository are:
 
 ### main
 
-These files are created by the extension if they don't already exist with [the Wizard](https://marketplace.visualstudio.com/items?itemName=Veracode.StaticForVs2022#the-wizard) (*veracode-project.json*) or when you [build/package](https://marketplace.visualstudio.com/items?itemName=Veracode.StaticForVs2022#buildpackage-and-publishpackage) (*Directory.Build.targets*, *Veracode.Package.build*, *Veracode.props*, *veracode-build-microsoft.json*).
+These files are created by the extension if they don't already exist with [the Wizard](https://docs.veracode.com/r/Configure_Project_Settings_for_Veracode_Static_for_Visual_Studio?tocId=CYNHgc_zP4HHAfEVENyqYg) (*veracode-project.json*) or when you [build/package](https://docs.veracode.com/r/Custom_Workflow_Tool_Window_in_Veracode_Static_for_Visual_Studio?tocId=jR~U3bfZEP_pso7kJI3rmA) (*Directory.Build.targets*, *Veracode.Package.build*, *Veracode.props*, *veracode-build-microsoft.json*).
 
 They are placed in the solution root of the application.
 
 ### special
 
-This file (*VeracodePublishProfile.pubxml*) is created by the extension when you [Publish/Package](https://marketplace.visualstudio.com/items?itemName=Veracode.StaticForVs2022#buildpackage-and-publishpackage) and you have at least one <span>ASP.</span>NET Framework project.
+This file (*VeracodePublishProfile.pubxml*) is created by the extension when you [Publish/Package](https://docs.veracode.com/r/Custom_Workflow_Tool_Window_in_Veracode_Static_for_Visual_Studio?tocId=jR~U3bfZEP_pso7kJI3rmA) and you have at least one <span>ASP.</span>NET Framework project.
 
 This file is placed in the `Properties/PublishProfiles` directory of each <span>ASP.</span>NET Framework project since that project type needs to be precompiled.
 
 ### user
 
-The *veracode-build-microsoft-user.json* file is created by the extension when you [build/package](https://marketplace.visualstudio.com/items?itemName=Veracode.StaticForVs2022#buildpackage-and-publishpackage), and the *veracode-project-user.json* is created by the extension using [the Wizard](https://marketplace.visualstudio.com/items?itemName=Veracode.StaticForVs2022#the-wizard).
+The *veracode-build-microsoft-user.json* file is created by the extension when you [build/package](https://docs.veracode.com/r/Custom_Workflow_Tool_Window_in_Veracode_Static_for_Visual_Studio?tocId=jR~U3bfZEP_pso7kJI3rmA), and the *veracode-project-user.json* is created by the extension using [the Wizard](https://docs.veracode.com/r/Configure_Project_Settings_for_Veracode_Static_for_Visual_Studio?tocId=CYNHgc_zP4HHAfEVENyqYg).
 
 These files are placed in the `C:\Users\{UserName}\.veracode` directory, and will override the corresponding files in the solution directory.
 
